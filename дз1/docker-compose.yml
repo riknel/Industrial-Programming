@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  
+  consumer:
+    tty: true
+    restart: always
+    build: ./consumer
+    links:
+      - queue
+      - database
+        
+  queue:
+    tty: true
+    restart: always
+    image: rabbitmq:latest
+
+  database:
+    tty: true
+    image: postgres:latest
+    restart: always
+    build: ./database
+    ports:
+      - "8080:5432"
+
