@@ -13,8 +13,8 @@ def callback(ch, method, properties, body):
     cursor = db_connection.cursor()
     cursor.execute("INSERT INTO received(body) VALUES ('{str_body}')")
     db_connection.commit()
-    print(f'Pushed {str_body} to db')
     cursor.close()
+    print(f'Push {str_body}')
 
 #creating db
 cursor = db_connection.cursor()
@@ -26,7 +26,6 @@ channel.basic_consume(callback,
                       no_ack=True,
                       )
 
-print(' [*] Waiting for messages. To exit press CTRL+C')
 channel.start_consuming()
 
 db_connection.close()

@@ -11,6 +11,6 @@ with open('input_data') as text:
         channel.basic_publish(exchange='',
                               routing_key='messages',
                               body=line.encode())
-        print(f'Pushed string {line}')
+        print(f'Push {line}')
 
 connection.close()
