@@ -1,9 +1,5 @@
 FROM python:3
-MAINTAINER elena
-WORKDIR /app
-ADD . /app
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
-CMD [ "python", "recieve.py" ]
-
-
+WORKDIR /app/consumer
+ADD . /app/consumer
+RUN pip install -r requirements.txt
+CMD ["python3", "/app/consumer/recieve.py"]

@@ -1,25 +1,36 @@
 version: "3"
-
 services:
-  
   consumer:
-    tty: true
-    restart: always
     build: ./consumer
-    links:
+    command: python3 /app/consumer/recieve.py
+    working_dir: /app/consumer
+    depends_on:
+      - db
       - queue
-      - database
-        
-  queue:
-    tty: true
-    restart: always
-    image: rabbitmq:latest
+    volumes:
+      - ./consumer:/app/consumer
 
-  database:
-    tty: true
+  producer:
+    build: ./producer
+    command: python3 /app/producer/send.py
+    working_dir: /app/producer
+    depends_on:
+      - db
+      - queue
+    volumes:
+      - ./producer:/app/producer
+
+  db:
     image: postgres:latest
-    restart: always
-    build: ./database
     ports:
-      - "8080:5432"
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=db
+      - POSTGRES_NAME=db
+      - POSTGRES_PASSWORD=db
 
+
+  queue:
+    image: rabbitmq:latest
+    ports:
+      - 5672:5672
