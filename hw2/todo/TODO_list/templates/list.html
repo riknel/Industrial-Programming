@@ -1,0 +1,17 @@
+<p><a href="{% url 'add' %}">Add task</a></p>
+
+{% block content %}
+   {% for task in object_list %}
+                {% if task.completed %}
+                    <h2 style="color:lightgray;">{{ task.title }}</h2>
+                {% else %}
+                    <h2 style="color:black;">{{ task.title }}</h2>
+                {% endif %}
+
+                <p>Description: {{ task.description }}</p>
+                    <div class="col-sm-2"> Created at: </div>
+                    <div class="col-sm-3"> {{ task.create_date }}</div>
+            <a href="{% url 'task_edit' task.pk %}">Edit</a>
+       <hr>
+    {% endfor %}
+{% endblock content %}
